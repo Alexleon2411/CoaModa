@@ -1,0 +1,19 @@
+{
+  "name": "coamoda",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "backend para coamoda",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "Jose Leon @Alexleon2411",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
+  }
+}
