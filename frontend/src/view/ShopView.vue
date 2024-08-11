@@ -28,7 +28,7 @@ watch(() => cart.isEmpty, (newVal) => {
 
 <template>
   <MainNav/>
-  <main class="pt-10 lg:flex lg:h-screen lg:overflow-y-hidden">
+  <main class="pt-10 lg:flex lg:h-screen lg:overflow-y-hidden" >
     <div :class="[isEmpty ? 'lg:w-2/3' : 'w-full', 'lg:screen lg:overflow-y-scroll py-32 lg:py-24 px-10']">
       <p v-if="noResults" class="text-center text-4xl">No hay productos </p>
       <div v-else class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5">

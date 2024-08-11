@@ -18,7 +18,7 @@ const coupon = useCouponStore();
       <Link to="shop" >volver</Link>
       <p v-if="cart.isEmpty" class="text-xl text-center text-gray-900">El Carrito esta vacio </p>
       <div v-else>
-        <p class="text-4xl font-bold text-gray-900 items-center"> Resumen de compra</p>
+        <p class="text-4xl font-bold text-gray-900 items-center mt-5"> Resumen de compra</p>
 
         <ul
           role="list"

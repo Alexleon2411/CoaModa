@@ -4,12 +4,55 @@ import Logo from './Logo.vue';
 import { useProductStore } from '../stores/products';
 import { useCartStore } from '../stores/cart';
 import { useAuthStore } from '../stores/auth';
-import { computed } from 'vue';
+import { computed, ref, watch, onMounted  } from 'vue';
 
 const auth = useAuthStore();
-
+const drawer = ref(true)
+const showMenu = ref(true)
+const rail = ref(true)
+const group = ref(null)
+const items = ref( [
+          {
+            title: 'Foo',
+            value: 'foo',
+          },
+          {
+            title: 'Bar',
+            value: 'bar',
+          },
+          {
+            title: 'Fizz',
+            value: 'fizz',
+          },
+          {
+            title: 'Buzz',
+            value: 'buzz',
+          },
+        ],
+      )
+const isBigScreen = ref(null)
 const products = useProductStore();
 const cart = useCartStore();
+
+//methods para la barra de navegacion
+
+  const onResize = () => {
+    isBigScreen.value = window.innerWidth > 960 ? true : false;
+    if (window.innerWidth >= 960) {
+      showMenu.value = false;
+    }
+    if (window.innerWidth >= 500) {
+      showMenu.value = true;
+    }
+  }
+  onMounted(() => {
+    onResize()
+  })
+
+
+  const togleNavBar = () => {
+    showMenu.value = !showMenu.value;
+  }
 
 /* la siguiente computed es para indicar a que ruta se debe dirigir al precionar administrar, si esta logueado se va a dirigir a los productos sino se dirige al panel de login */
 const endPoint = computed(() => {
@@ -18,10 +61,76 @@ const endPoint = computed(() => {
 
 </script>
 <template>
+  <!-- header para small screen -->
+
+    <v-card v-if="!isBigScreen">
+      <v-layout>
+        <v-app-bar
+          color="primary"
+          prominent
+        >
+          <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+          <v-toolbar-title>My files</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <template v-if="$vuetify.display.mdAndUp">
+            <v-btn icon="mdi-magnify" variant="text"></v-btn>
+
+            <v-btn icon="mdi-filter" variant="text"></v-btn>
+          </template>
+
+          <v-btn icon="mdi-dots-vertical" variant="text"></v-btn>
+        </v-app-bar>
+
+        <v-navigation-drawer
+          v-model="drawer"
+          :location="$vuetify.display.mobile ? 'left' : undefined"
+          temporary
+        >
+          <v-list
+            :items="items"
+          ></v-list>
+        </v-navigation-drawer>
+
+        <v-main style="height: 500px;">
+          <v-card-text>
+            The navigation drawer will appear from the bottom on smaller size screens.
+          </v-card-text>
+        </v-main>
+      </v-layout>
+    </v-card>
+
+
+  <!-- <v-navigation-drawer v-model="showMenu" permanet overlay left temporary>
+    <v-btn
+      @click="togleNavBar"
+      prepend-icon="mdi-menu"
+    >
+    </v-btn>
+    <div v-for="category in products.categories" :key="products.id">
+      <li>
+        <input type="radio"
+        name="category"
+        :value="category.id"
+        class="h-4 w-4 rounded border-gray-300 text-indigo-600 mr-2 focus:ring-indigo-500"
+        :checked="products.selectCategory === category.id"
+        @change="products.selectCategory = +$event.target.value"
+              >
+              <label class="text-gray-100"> {{ category.name }}</label>
+            </li>
+          </div>
+        </v-navigation-drawer> -->
+
+
+
+
+  <!-- header para big screen -->
   <!-- se le da la siguiente configuracion para la barra de navegacion, el absolute es para que mantenga una
    posicion fija y el z-10 es para que se muestre delante de cualquier elemento no importa que no haya un elemento con
    configuracion de relative -->
-  <header class="px-10 py-5 bg-gray-900 flex flex-col lg:flex-row gap-5 lg:item-center lg:justify-between absolute top-0 w-full z-10">
+  <header v-else  class="px-10 py-5 bg-gray-900 flex flex-col lg:flex-row gap-5 lg:item-center lg:justify-between absolute top-0 w-full z-10">
     <div>
         <Logo/>
       <div class="flex gap-5 text-white">
