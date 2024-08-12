@@ -3,23 +3,14 @@
   import { ref } from 'vue';
   import { useSalesStore } from "../../stores/sales";
   import SalesDetails from "../../components/SalesDetails.vue";
+import { formatCurrency } from "../../helpers";
 
   const sales = useSalesStore()
   const formatter = ref({
-    date: 'DD/MM/YY',
+    date: 'DD/MM/YYYY',
     month: 'MMMM'
   })
-   const gettingDB = async data => {
-    try {
-      console.log(sales.salesSource);
-      console.log(sales.salesCollection);
-      console.log(sales.date);
-    } catch (error) {
-      console.error (error);
-    }
-   }
-  console.log(sales.salesCollection)
-  console.log(sales.isDateSelected)
+
 </script>
 <template>
   <h1 class="text-4xl font-bacl my-10"></h1>
@@ -39,20 +30,25 @@
       >
         Ventas de la fecha:
         <span class="font-black">
-          {{ sales.date }}
+          {{ sales.date}}
         </span>
       </p>
 
       <p class="text-center text-lg" v-else>
         Selecciona una fecha
       </p>
-      <div class="space-y-5">
+      <div class="space-y-5" v-if="sales.salesCollection.length">
         <SalesDetails
           v-for="sale in sales.salesCollection"
           :key="sale.id"
           :sale="sale"
         />
+        <p class="text-right text-2xl bg-gray-300 pr-2"> Total  de ventas del dia:
+
+          <span class="font-black"> {{ formatCurrency(sales.totalSalesOfDay) }}</span>
+        </p>
       </div>
+      <p v-else-if="sales.noSales" class="text-lg text-center font-black">No hay ventas en este dia </p>
     </div>
 
   </div>
