@@ -15,6 +15,12 @@ import * as directives from 'vuetify/directives'
 //formit
 import { plugin, defaultConfig } from '@formkit/vue'
 import config from '../formkit.config';
+import axios from 'axios';
+
+
+// configuracin de axios
+const origins = 'http://localhost:3000';
+axios.defaults.baseURL = origins;
 
 const pinia = createPinia();
 const app = createApp(App)
@@ -30,7 +36,7 @@ app.use(VueFire, {
   firebaseApp,
   modules: [VueFireAuth()],
 })
-
+app.use(axios);
 app.use(vuetify)
 app.use(plugin, defaultConfig(config))
 app.use(router)

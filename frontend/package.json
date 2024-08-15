@@ -13,7 +13,7 @@
     "@formkit/vue": "^1.6.5",
     "@mdi/font": "^7.4.47",
     "@mdi/js": "^7.4.47",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "firebase": "^10.12.2",
     "flowbite": "^2.4.1",
     "pinia": "^2.1.7",

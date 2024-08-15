@@ -10,9 +10,10 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-  origin: 'http://localhost:5173', // URL del frontend
+  origin: ['http://localhost:5173', 'https://coa-moda-alexleon2411s-projects.vercel.app'], // URL del frontend
   methods: ['GET', 'POST'], // Métodos permitidos
-  allowedHeaders: ['Content-Type'] // Encabezados permitidos
+  allowedHeaders: ['Content-Type'],
+  credentials: true,  // Encabezados permitidos
 }));
 
 app.use(bodyParser.json());
@@ -29,7 +30,7 @@ const client = require('twilio')(accountSid, authToken);
 
 
 function enviarWhatsAppAlerta(compra) {
-  const { cliente, total, articulos } = compra;
+  const { cliente, total, tlf, articulos } = compra;
 
   let cartDetails = articulos
     .map(
@@ -47,9 +48,10 @@ function enviarWhatsAppAlerta(compra) {
   const mensaje = `
   ¡Nueva compra realizada!
   Cliente: ${cliente}
+  Telefono: ${tlf}
   Total: $${total}
   Artículos: ${cartDetails}
-  URL: https://coa-moda-alexleon2411s-projects.vercel.app/admin/ventas
+  URL: https://coa-moda-alexleon2411s-projects.vercel.app/admin/ventas?tlf=${tlf}
   `;
     console.log(`el mensaje es : ${mensaje}`);
     client.messages

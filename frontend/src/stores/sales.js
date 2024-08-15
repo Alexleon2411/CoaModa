@@ -7,20 +7,34 @@ export const useSalesStore = defineStore('sales', () => {
 
   const db = useFirestore()
   const date = ref('')
+  const telefono = ref('')
+
 
   const salesSource = computed(() => {
-    if(date.value) {
+    const conditions = [];
+
+    if (date.value) {
+      conditions.push(where('date', '==', date.value));
+    }
+    if (telefono.value) {
+      conditions.push(where('user.tlf', '==', telefono.value));
+    }
+
+    if (conditions.length) {
       const q = query(
         collection(db, 'sales'),
-        where('date', '==', date.value)
-      )
-      return q
+        ...conditions
+      );
+      return q;
     }
+
+    return null;
   })
-  //la siguiente funcion cambia su valor cada vez que el computed salesSource cambie sus datos
+  // La colección de ventas se actualiza automáticamente
   const salesCollection = useCollection(salesSource)
 
   const isDateSelected = computed(() => date.value)
+  const isPhoneSelected = computed(() => telefono.value);
 
   const noSales = computed(() => !salesCollection.length && date.value)
 
@@ -30,7 +44,9 @@ export const useSalesStore = defineStore('sales', () => {
 
   return {
     date,
+    telefono,
     isDateSelected,
+    isPhoneSelected,
     salesCollection,
     salesSource,
     noSales,

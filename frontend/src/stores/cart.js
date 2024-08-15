@@ -7,6 +7,7 @@ import { getCurrentDate } from '../helpers'
 import { useRouter } from "vue-router";
 import axios from 'axios';
 
+
 export const useCartStore = defineStore('cart', () => {
   const db = useFirestore()
   const router = useRouter()
@@ -67,7 +68,7 @@ export const useCartStore = defineStore('cart', () => {
   async function handleShop(){
      //await sendEmail()
      await sendWhatsaap()
-    // await checkout()
+     await checkout()
     console.log('connected')
   }
 
@@ -78,7 +79,7 @@ export const useCartStore = defineStore('cart', () => {
     console.log(items.value)
 
     try {
-      const response = await axios.post('http://localhost:3000/send-email', {
+      const response = await axios.post('/send-email', {
         name: user.value.userName,
         email: user.value.email,
         phone: user.value.tlf,
@@ -91,9 +92,10 @@ export const useCartStore = defineStore('cart', () => {
 
   async function sendWhatsaap() {
     try {
-      const response = await axios.post('http://localhost:3000/realizar-compra', {
+      const response = await axios.post('/realizar-compra', {
         cliente: user.value.userName,
         total: total.value,
+        tlf: user.value.tlf,
         articulos: items.value,
       });
     } catch (error) {

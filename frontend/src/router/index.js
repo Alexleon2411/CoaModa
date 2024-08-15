@@ -57,7 +57,7 @@ const router = createRouter({
           component: () => import('../view/admin/SeederView.vue')
         },
         {
-          path: 'ventas',
+          path: 'ventas/:tlf?',
           name: 'sales',
           component: () => import('../view/admin/SalesView.vue'),
           meta: { requiresAuth: true },
