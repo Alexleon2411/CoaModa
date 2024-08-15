@@ -1,6 +1,6 @@
 <script setup>
   import VueTailwindDatepicker from "vue-tailwind-datepicker";
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { useSalesStore } from "../../stores/sales";
   import SalesDetails from "../../components/SalesDetails.vue";
 import { formatCurrency } from "../../helpers";
@@ -10,6 +10,14 @@ import { formatCurrency } from "../../helpers";
     date: 'DD/MM/YYYY',
     month: 'MMMM'
   })
+  const search = ref({
+    'tlf': ''
+  })
+
+  const telefono = computed(() => {
+    return search.tlf
+  })
+
 
 </script>
 <template>

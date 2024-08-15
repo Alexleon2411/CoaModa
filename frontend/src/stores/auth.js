@@ -10,7 +10,6 @@ export const useAuthStore = defineStore('auth', () => {
   const authUser = ref(null)
   const router = useRouter()
 
-  console.log(authUser.value)
   const errorMsg =  ref('')
   const errorCode = {
     'auth/invalid-credential': 'Usuario no encontrado o la contraseña es invalida',

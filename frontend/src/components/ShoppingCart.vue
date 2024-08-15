@@ -49,8 +49,28 @@ const coupon = useCouponStore();
           </Amount>
         </dl>
         <CouponForm/>
+        <v-form class="mt-5">
+          <h3 class="font-black">Introduce tu informacion de contacto</h3>
+        <v-row>
+          <v-col cols="6" md="6" sm="12">
+            <v-text-field label="Name" v-model="cart.user.userName" hint="*Campo Requerido" persistent-hint>
+            </v-text-field>
+          </v-col>
+          <v-col cols="6" md="6" sm="12">
+            <v-text-field label="Email" v-model="cart.user.email" hint="*Campo Requerido" persistent-hint>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Numero de Telefono" v-model="cart.user.tlf" hint="*Campo Requerido" persistent-hint>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <Link  @click="cart.handleShop" v-if="cart.user.userName !== '' && cart.user.email !== '' && cart.user.tlf !== '' ">Confirmar Compra</Link>
+          </v-col>
+        </v-row>
+        </v-form>
         <div class="mt-5">
-          <Link to="info">Confirmar Compra</Link>
+
         </div>
       </div>
     </div>

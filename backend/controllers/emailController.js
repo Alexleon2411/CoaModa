@@ -1,4 +1,4 @@
-import  transport from '../config/emailConfig.js'
+const  transport = require('../config/emailConfig.js')
 
 const sendEmail = (req, res) => {
   const { name, email, phone, cart } = req.body;
@@ -6,7 +6,7 @@ const sendEmail = (req, res) => {
     return res.status(400).send('Todos los campos son requeridos');
   }
   console.log('desde sent email ')
- // el siguiente map se ejecuta para poder dividir los podructos y de esta manera enviarla en el correo 
+ // el siguiente map se ejecuta para poder dividir los podructos y de esta manera enviarla en el correo
   let cartDetails = cart.map(item => `
     Nombre del Producto: ${item.name}
     Precio: ${item.price}
@@ -38,6 +38,6 @@ const sendEmail = (req, res) => {
   });
 };
 
-export {
+module.exports = {
   sendEmail,
 };

@@ -5,12 +5,18 @@ import { collection, addDoc, runTransaction, doc } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 import { getCurrentDate } from '../helpers'
 import { useRouter } from "vue-router";
+import axios from 'axios';
 
 export const useCartStore = defineStore('cart', () => {
   const db = useFirestore()
   const router = useRouter()
 
   const coupon = useCouponStore()
+  const user  = ref({
+    'userName': '',
+    'email': '',
+    'tlf': ''
+  })
   const items = ref([])
   const subTotal = ref(0)
   const MAX_PRODUCT = 5;
@@ -58,6 +64,45 @@ export const useCartStore = defineStore('cart', () => {
     items.value = items.value.filter(item => item.id !== id)
   }
 
+  async function handleShop(){
+     //await sendEmail()
+     await sendWhatsaap()
+    // await checkout()
+    console.log('connected')
+  }
+
+  async function sendEmail()  {
+    console.log(user.value.userName)
+    console.log(user.value.email)
+    console.log(user.value.tlf)
+    console.log(items.value)
+
+    try {
+      const response = await axios.post('http://localhost:3000/send-email', {
+        name: user.value.userName,
+        email: user.value.email,
+        phone: user.value.tlf,
+        cart: items.value,
+      });
+    } catch (error) {
+    console.log(error)
+    }
+  }
+
+  async function sendWhatsaap() {
+    try {
+      const response = await axios.post('http://localhost:3000/realizar-compra', {
+        cliente: user.value.userName,
+        total: total.value,
+        articulos: items.value,
+      });
+    } catch (error) {
+    console.log(error)
+    }
+  }
+
+
+
   async function checkout() {
     try {
         await addDoc(collection(db, 'sales'), {
@@ -77,7 +122,7 @@ export const useCartStore = defineStore('cart', () => {
         await runTransaction(db, async (transaction) => { //ejecutamos la function runtransaction para ejecutar la transacion que queremos ejecutar
           const currentProduct = await transaction.get(productRef) // aqui solicitamos la transacion que queremos ejecutar con la referencia del producto como argumento
           const availability = currentProduct.data().availability - item.quantity /// aqui ejecutamos la transacion que queremos ejecutar que es eliminar la disponibilidad que tiene el priducto con a cantidad que la transacion a ejecutado
-          transaction.update(productRef, { availability }) // aqui se actualiza la base de datos pasandole como argumento la cantidad de productos restantes 
+          transaction.update(productRef, { availability }) // aqui se actualiza la base de datos pasandole como argumento la cantidad de productos restantes
         })
       })
       // reiniciar el state del carrito
@@ -112,10 +157,12 @@ export const useCartStore = defineStore('cart', () => {
     taxes,
     total,
     addItem,
+    handleShop,
     updateQuantity,
     removeItem,
     checkout,
     isEmpty,
+    user,
     items,
     checkProductAvailability
   }

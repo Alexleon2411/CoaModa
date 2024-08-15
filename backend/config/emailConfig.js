@@ -1,4 +1,4 @@
-import  nodemailer from 'nodemailer'
+const  nodemailer = require('nodemailer')
 
 var transport = nodemailer.createTransport({
   host: "sandbox.smtp.mailtrap.io",
@@ -10,4 +10,4 @@ var transport = nodemailer.createTransport({
   }
 });
 
-export default transport
+module.exports = transport
