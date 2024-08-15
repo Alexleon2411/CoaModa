@@ -4,9 +4,10 @@
   import { useSalesStore } from "../../stores/sales";
   import SalesDetails from "../../components/SalesDetails.vue";
   import { formatCurrency } from "../../helpers";
-  import { useRoute } from "vue-router";
+  import { useRoute, useRouter } from "vue-router";
 
   const route = useRoute()
+  const router = useRouter();
 
   const sales = useSalesStore()
   const formatter = ref({
@@ -21,13 +22,18 @@
     return search.value.tlf
   })
 
+  const buscarPorTelefono = () => {
+    sales.telefono = telefono.value;
+    router.push({ path: '/admin/ventas', query: { tlf: telefono.value } });
+  };
+
   onMounted(() => {
-    const tlfFromUrl = route.params.tlf; // captura el parametro desde la ruta
-    if (tlfFromUrl) {
-      search.value.tlf = tlfFromUrl;
-      sales.telefono = tlfFromUrl;
+    const tlfFromQuery = route.query.tlf;
+    if (tlfFromQuery) {
+      search.value.tlf = tlfFromQuery;
+      sales.telefono = tlfFromQuery;
     }
-  })
+  });
 
 // Observa cambios en el número de teléfono para realizar la búsqueda
   watch(telefono, (newVal) => {
