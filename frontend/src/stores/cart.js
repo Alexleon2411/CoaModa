@@ -25,6 +25,7 @@ export const useCartStore = defineStore('cart', () => {
   // para calcular el rango de taxes
   const TAX_RATE = .10
   const total = ref(0)
+  const status = ref('pendiente')
 
   //aqui se observa los cambios echos en la cantidad y se multiplica por el precio del producto
     /* cuando se usa un watch effect no se le debe pasar ninguna dependencia ya que todo lo que esta registrado es en parte
@@ -67,7 +68,7 @@ export const useCartStore = defineStore('cart', () => {
 
   async function handleShop(){
      //await sendEmail()
-     await sendWhatsaap()
+     //await sendWhatsaap()
      await checkout()
     console.log('connected')
   }
@@ -117,6 +118,8 @@ export const useCartStore = defineStore('cart', () => {
         discount: coupon.discount,
         total: total.value,
         date: getCurrentDate(),
+        user: user.value,
+        status: status.value,
       })
       //substraer la cantidad de lo disponible
       items.value.forEach(async(item) => {
