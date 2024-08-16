@@ -5,9 +5,11 @@
   import SalesDetails from "../../components/SalesDetails.vue";
   import { formatCurrency } from "../../helpers";
   import { useRoute, useRouter } from "vue-router";
+  import { useCartStore } from "../../stores/cart";
 
   const route = useRoute()
-  const router = useRouter();
+  const router = useRouter()
+  const cart = useCartStore()
 
   const sales = useSalesStore()
   const formatter = ref({
@@ -92,6 +94,7 @@
           v-for="sale in sales.salesCollection"
           :key="sale.id"
           :sale="sale"
+          @update-status="cart.updateSaleStatus(sale.id, $event)"
         />
         <p class="text-right text-2xl bg-gray-300 pr-2"> Total  de ventas del dia:
 

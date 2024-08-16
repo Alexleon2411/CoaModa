@@ -1,6 +1,8 @@
 <script setup>
   import { formatCurrency } from '../helpers';
+  import { ref, watch } from 'vue';
   import Amount from './Amount.vue'
+  import { useSalesStore } from '../stores/sales';
 
   defineProps({
     sale: {
@@ -8,6 +10,20 @@
       required: true,
     }
   })
+
+  const sales = useSalesStore()
+  const emit = defineEmits(['update-status']);
+
+  const localStatus = ref(sales.status);
+
+  // Watch for changes in the local status to emit updates
+  watch(localStatus, (newStatus) => {
+    emit('update-status', newStatus);
+  });
+
+  const updateStatus = () => {
+    emit('update-status', localStatus.value);
+  };
 </script>
 <template>
   <div class="border-t border-gray-200 space-y-6 py-6">
@@ -46,6 +62,21 @@
         <template #label>Total a pagar: </template>
         {{ formatCurrency(sale.total) }}
       </Amount>
+      <v-row>
+        <v-col cols="12">
+          <p>Estado: {{ sale.status }}</p>
+        </v-col>
+        <v-col cols="12">
+          <v-select
+            :items="['pendiente', 'realizada', 'cancelada']"
+            v-model="localStatus"
+            @change="updateStatus"
+            variant="outlined"
+            class="w-25"
+          ></v-select>
+        </v-col>
+      </v-row>
+      <!-- Botón para cambiar el estado -->
     </dl>
   </div>
 </template>

@@ -2,7 +2,7 @@
 import Link from '../components/Link.vue'
 import Logo from './Logo.vue';
 import { useAuthStore } from '../stores/auth';
-import { computed, ref, watch, onMounted  } from 'vue';
+import { ref, onMounted  } from 'vue';
 
   const auth = useAuthStore()
   const isBigScreen = ref(null)
@@ -12,7 +12,6 @@ import { computed, ref, watch, onMounted  } from 'vue';
 
   const onResize = () => {
     isBigScreen.value = window.innerWidth > 960 ? true : false;
-    
   }
   onMounted(() => {
     onResize()

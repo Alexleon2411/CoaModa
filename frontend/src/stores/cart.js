@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed, watchEffect } from "vue";
 import { useCouponStore } from './coupons'
-import { collection, addDoc, runTransaction, doc } from 'firebase/firestore'
+import { collection, addDoc, runTransaction, doc, getDocs, updateDoc } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 import { getCurrentDate } from '../helpers'
 import { useRouter } from "vue-router";
@@ -67,8 +67,8 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function handleShop(){
-     //await sendEmail()
-     //await sendWhatsaap()
+     await sendEmail()
+     await sendWhatsaap()
      await checkout()
     console.log('connected')
   }
@@ -157,6 +157,12 @@ export const useCartStore = defineStore('cart', () => {
     return (product) => product.availability < MAX_PRODUCT ? product.availability : MAX_PRODUCT
   })
 
+  const updateSaleStatus = async (saleId, newStatus) => {
+    const saleRef = doc(db, 'sales', saleId);
+    const response = await updateDoc(saleRef, { status: newStatus });
+    alert('Se ha actualizado el estado')
+  };
+
   return {
     subTotal,
     taxes,
@@ -166,6 +172,7 @@ export const useCartStore = defineStore('cart', () => {
     updateQuantity,
     removeItem,
     checkout,
+    updateSaleStatus,
     isEmpty,
     user,
     items,
