@@ -8,6 +8,7 @@ export const useSalesStore = defineStore('sales', () => {
   const db = useFirestore()
   const date = ref('')
   const telefono = ref('')
+  const status = ref('')
 
 
   const salesSource = computed(() => {
@@ -19,6 +20,10 @@ export const useSalesStore = defineStore('sales', () => {
     if (telefono.value) {
       conditions.push(where('user.tlf', '==', telefono.value));
     }
+    if (status.value) {
+      conditions.push(where('status', '==', status.value)); // Filtro por estado
+    }
+
 
     if (conditions.length) {
       const q = query(
@@ -35,6 +40,7 @@ export const useSalesStore = defineStore('sales', () => {
 
   const isDateSelected = computed(() => date.value)
   const isPhoneSelected = computed(() => telefono.value);
+  const isStatusSelected = computed(() => status.value);
 
   const noSales = computed(() => !salesCollection.length && date.value)
 
@@ -44,9 +50,11 @@ export const useSalesStore = defineStore('sales', () => {
 
   return {
     date,
+    status,
     telefono,
     isDateSelected,
     isPhoneSelected,
+    isStatusSelected,
     salesCollection,
     salesSource,
     noSales,

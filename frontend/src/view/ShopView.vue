@@ -4,7 +4,6 @@ import ProductCard from '../components/ProductCard.vue';
 import { useProductStore } from '../stores/products';
 import { storeToRefs } from 'pinia' // esto se utiliza para mantener la reactividad al momento de aplicar destrototing
 import { useCartStore } from '../stores/cart';
-import ShoopingCart from '../components/ShoppingCart.vue'
 import { watch, ref, onMounted } from 'vue';
 
 const cart = useCartStore()
@@ -59,11 +58,6 @@ watch(() => cart.isEmpty, (newVal) => {
           />
         </div>
       </div>
-      <!-- <aside v-if="!cart.isEmpty" class="lg:w-1/3 lg:screen lg:overflow-y-scroll pt-10 py-32 lg:py-24 px-10">
-        <div >
-          <ShoopingCart  @cartEmpty="handleCartEmpty"/>
-        </div>
-      </aside> -->
     </main>
   </div>
 </template>

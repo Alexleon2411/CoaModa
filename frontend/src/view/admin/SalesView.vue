@@ -15,15 +15,17 @@
     month: 'MMMM'
   })
   const search = ref({
-    'tlf': ''
+    'tlf': '',
+    'status': ''
+
   })
 
-  const telefono = computed(() => {
-    return search.value.tlf
-  })
+  const telefono = computed(() =>  search.value.tlf)
+  const status = computed(() => search.value.status);
 
-  const buscarPorTelefono = () => {
+  const buscarVentas = () => {
     sales.telefono = telefono.value;
+    sales.status = status.value;
     router.push({ path: '/admin/ventas', query: { tlf: telefono.value } });
   };
 
@@ -64,12 +66,27 @@
       <p class="text-center text-lg" v-else>
         Selecciona una fecha o introduce un número de teléfono
       </p>
-      <v-text-field
-        v-model="sales.telefono"
-        label="Buscar por Teléfono"
-        placeholder="Ingresa el número de teléfono"
-        clearable
-      ></v-text-field>
+      <div>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="sales.telefono"
+              label="Buscar por Teléfono"
+              placeholder="Ingresa el número de teléfono"
+              clearable
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-select
+              :items="['pendiente', 'realizada', 'cancelada']"
+              label="Estado de la Venta"
+              v-model="sales.status"
+              @change="buscarVentas"
+              clearable
+            ></v-select>
+          </v-col>
+        </v-row>
+     </div>
       <div class="space-y-5" v-if="sales.salesCollection.length">
         <SalesDetails
           v-for="sale in sales.salesCollection"
