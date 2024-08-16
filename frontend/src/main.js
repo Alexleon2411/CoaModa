@@ -19,7 +19,7 @@ import axios from 'axios';
 
 
 // configuracin de axios
-const origins = 'http://localhost:3000';
+const origins = 'https://coa-moda-backend.vercel.app';
 axios.defaults.baseURL = origins;
 
 const pinia = createPinia();
