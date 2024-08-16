@@ -40,15 +40,7 @@ const endPoint = computed(() => {
   <!-- header para small screen -->
   <div v-if="!isBigScreen" class="position-sticky top-0 left-0 right-0 bg-gray-900 pa-3 w-100" style="z-index: 2;">
     <div class="bg-gray-900 d-flex justify-between">
-      <RouterLink to="/">
-        <div class="flex">
-          <h1
-          class="text-3xl font-black text-white "
-          >
-            COA<span class="text-green-400">Moda</span>
-          </h1>
-        </div>
-      </RouterLink>
+      <Logo/>
       <div class="align-center pt-1 pr-2 ">
         <v-btn
           size="medium"
