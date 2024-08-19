@@ -19,7 +19,7 @@ import axios from 'axios';
 
 
 // configuracin de axios
- const origins = 'https://buhu.up.railway.app';
+ const origins = 'https://buhu.up.railway.app/';
 //const origins = 'http://localhost:3000';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = origins;
