@@ -4,7 +4,7 @@
       <h1
        class="text-3xl font-black text-white"
       >
-        COA<span class="text-green-400">Moda</span>
+       <span class="text-green-400"> BUHÚ</span>
       </h1>
     </div>
   </RouterLink>
