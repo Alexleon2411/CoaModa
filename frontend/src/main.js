@@ -19,9 +19,8 @@ import axios from 'axios';
 
 
 // configuracin de axios
- const origins = 'https://buhu.up.railway.app/';
-//const origins = 'http://localhost:3000';
-axios.defaults.withCredentials = true;
+ const origins = 'https://buhu.up.railway.app';
+/* const origins = 'http://localhost:3000'; */
 axios.defaults.baseURL = origins;
 
 const pinia = createPinia();

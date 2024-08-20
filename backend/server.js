@@ -4,13 +4,17 @@ const  emailRoutes = require('./routes/emailRoutes.js')
 const  cors = require('cors')
 const dotenv = require('dotenv')
 
-dotenv.config({ path: '.env.local' })
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '.env.local' });
+} else {
+  dotenv.config(); // Esto cargará las variables de entorno normales en Vercel
+}
 
 const app = express();
 const port = 3000;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://coa-moda-alexleon2411s-projects.vercel.app'], // URL del frontend
+  origin: ['http://localhost:5173', 'https://buhu-coa.vercel.app'], // URL del frontend
   methods: ['GET', 'POST'], // Métodos permitidos
   allowedHeaders: ['Content-Type'],
   credentials: true,  // Encabezados permitidos
@@ -29,7 +33,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
-function enviarWhatsAppAlerta(compra) {
+async function enviarWhatsAppAlerta(compra) {
   const { cliente, total, tlf, articulos } = compra;
 
   let cartDetails = articulos
@@ -44,35 +48,52 @@ function enviarWhatsAppAlerta(compra) {
   `
     )
     .join('\n');
-
   const mensaje = `
   ¡Nueva compra realizada!
   Cliente: ${cliente}
   Telefono: ${tlf}
   Total: $${total}
   Artículos: ${cartDetails}
-  URL: https://coa-moda-alexleon2411s-projects.vercel.app/admin/ventas?tlf=${tlf}
+  URL: https://buhu-coa.vercel.app/admin/ventas?tlf=${tlf}
   `;
-    console.log(`el mensaje es : ${mensaje}`);
     client.messages
     .create({
         body: mensaje,
         from: process.env.TWILIO_WHATSAPP_NUMBER,
         to: process.env.MI_WHATSAPP_NUMBER,
     })
-    .then(message => console.log(message.sid))
-    .catch((error) => console.error('Error al enviar mensaje:', error));
+    .then(message => {
+      console.log(message.sid);
+      return true;
+
+    })
+    .catch((error) => {
+      console.error('Error al enviar mensaje:', error);
+      return false;
+    });
 }
 
 
-app.post('/realizar-compra', (req, res) => {
+app.post('/realizar-compra', async(req, res)   => {
   const compra = req.body;
-  enviarWhatsAppAlerta(compra);
-  res.send({ mensaje: 'Compra realizada con éxito' });
+  const response = await enviarWhatsAppAlerta(compra);
+  res.send({ mensaje: 'Compra realizada con éxito', response });
 });
-
 
 app.use('/', emailRoutes);
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+app.use('/', (req,res) => {
+  const htmlRequest = `
+  <html>
+    <heade>
+      <title>NodeJS y express en vercel </title>
+    </heade>
+    <body>
+      <h1> Soy un projecto de node js </h1>
+    </body>
+  </html>
+  `
+  res.send(htmlRequest);
+})

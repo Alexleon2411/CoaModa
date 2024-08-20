@@ -1,10 +1,9 @@
 {
   "name": "coamoda",
   "version": "1.0.0",
-  "description": "backend para coamoda",
+  "description": "backend para BUHÚ",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "author": "Jose Leon @Alexleon2411",

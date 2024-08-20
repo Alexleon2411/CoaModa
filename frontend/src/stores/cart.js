@@ -74,10 +74,6 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function sendEmail()  {
-    console.log(user.value.userName)
-    console.log(user.value.email)
-    console.log(user.value.tlf)
-    console.log(items.value)
 
     try {
       const response = await axios.post('/send-email', {
