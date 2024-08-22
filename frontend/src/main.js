@@ -4,6 +4,7 @@ import './assets/main.css'
 import '@mdi/font/css/materialdesignicons.css'
 import router from './router';
 import { createPinia } from 'pinia';
+import { registerSW } from 'virtual:pwa-register';
 // Firebase
 import { VueFire, VueFireAuth } from 'vuefire'
 import { firebaseApp } from './config/firebase'
@@ -32,6 +33,15 @@ const vuetify = createVuetify({
   directives
 })
 
+//pwa configuration
+
+
+const updateSW = registerSW({
+  onNeedRefresh() {},
+  onOfflineReady() {},
+});
+
+createApp(App).mount('#app');
 //firebase
 app.use(VueFire, {
   firebaseApp,
