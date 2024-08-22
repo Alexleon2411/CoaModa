@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [vue(),
     VitePWA({
       manifest: {
-        name: 'Mi PWA',
-        short_name: 'PWA',
+        name: 'BUHÚ',
+        short_name: 'BUHÚ',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',
