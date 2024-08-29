@@ -105,8 +105,7 @@ export const useCartStore = defineStore('cart', () => {
         const message = `
           Hola, soy ${user.value.userName}.
           Quiero realizar un pedido con los siguientes artículos:
-          ${items.value.map(item => `- ${item.quantity} x ${item.name} (${item.price}€ c/u)`).join('\n')}
-
+          articulos: ${items.value}
           Subtotal: ${subTotal.value}€
           Impuestos: ${taxes.value}€
           Descuento: ${coupon.discount}€
