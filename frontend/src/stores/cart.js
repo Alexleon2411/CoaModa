@@ -101,7 +101,7 @@ export const useCartStore = defineStore('cart', () => {
   } */
     async function sendWhatsapp() {
       try {
-        const number = '32467705169'
+        const number = import.meta.env.VITE_PHONE;
         const message = `
           Hola, soy ${user.value.userName}.
           Quiero realizar un pedido con los siguientes artículos:
