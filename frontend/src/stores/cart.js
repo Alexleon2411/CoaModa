@@ -101,10 +101,16 @@ export const useCartStore = defineStore('cart', () => {
   } */
     async function sendWhatsapp() {
       try {
-        const number = import.meta.env.VITE_PHONE
+        const number = '32467705169'
         const message = `
           Hola, soy ${user.value.userName}.
-          Quiero realizar el siguiente pedido:
+          Quiero realizar un pedido con los siguientes artículos:
+          ${items.value.map(item => `- ${item.quantity} x ${item.name} (${item.price}€ c/u)`).join('\n')}
+
+          Subtotal: ${subTotal.value}€
+          Impuestos: ${taxes.value}€
+          Descuento: ${coupon.discount}€
+          Total a pagar: ${total.value}€
           URL: https://buhu-coa.vercel.app/admin/ventas?tlf=${user.value.tlf}
         `;
 
