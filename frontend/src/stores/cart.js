@@ -104,13 +104,7 @@ export const useCartStore = defineStore('cart', () => {
         const number = import.meta.env.VITE_PHONE
         const message = `
           Hola, soy ${user.value.userName}.
-          Quiero realizar un pedido con los siguientes artículos:
-          ${items.value.map(item => `- ${item.quantity} x ${item.name} (${item.price}€ c/u)`).join('\n')}
-
-          Subtotal: ${subTotal.value}€
-          Impuestos: ${taxes.value}€
-          Descuento: ${coupon.discount}€
-          Total a pagar: ${total.value}€
+          Quiero realizar el siguiente pedido:
           URL: https://buhu-coa.vercel.app/admin/ventas?tlf=${user.value.tlf}
         `;
 
