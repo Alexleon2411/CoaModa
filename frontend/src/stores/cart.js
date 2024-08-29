@@ -68,8 +68,8 @@ export const useCartStore = defineStore('cart', () => {
 
   async function handleShop(){
      await sendEmail()
-     await sendWhatsaap()
      await checkout()
+     await sendWhatsapp()
     console.log('connected')
   }
 
@@ -87,7 +87,7 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  async function sendWhatsaap() {
+  /* async function sendWhatsaap() {
     try {
       const response = await axios.post('/realizar-compra', {
         cliente: user.value.userName,
@@ -98,9 +98,30 @@ export const useCartStore = defineStore('cart', () => {
     } catch (error) {
     console.log(error)
     }
-  }
+  } */
+    async function sendWhatsapp() {
+      try {
+        const number = import.meta.env.VITE_PHONE
+        const message = `
+          Hola, soy ${user.value.userName}.
+          Quiero realizar un pedido con los siguientes artículos:
+          ${items.value.map(item => `- ${item.quantity} x ${item.name} (${item.price}€ c/u)`).join('\n')}
 
+          Subtotal: ${subTotal.value}€
+          Impuestos: ${taxes.value}€
+          Descuento: ${coupon.discount}€
+          Total a pagar: ${total.value}€
+          URL: https://buhu-coa.vercel.app/admin/ventas?tlf=${user.value.tlf}
+        `;
 
+        const whatsappLink = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+
+        // Redirigir al usuario a WhatsApp con el mensaje prellenado
+        window.open(whatsappLink, '_blank');
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
   async function checkout() {
     try {
