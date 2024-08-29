@@ -65,7 +65,7 @@ const coupon = useCouponStore();
             </v-text-field>
           </v-col>
           <v-col cols="12">
-            <Link  @click="cart.handleShop" v-if="cart.user.userName !== '' && cart.user.email !== '' && cart.user.tlf !== '' ">Confirmar Compra</Link>
+            <Link  @click="cart.handleShop" v-if="cart.user.userName !== '' && cart.user.email !== '' && cart.user.tlf !== '' ">Confirma compra via Whatsapp</Link>
           </v-col>
         </v-row>
         </v-form>
